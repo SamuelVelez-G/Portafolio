@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Samuel Vélez Guzmán · Desarrollador Full Stack</title>
+  <meta name="description" content="Portafolio de Samuel Vélez Guzmán, Desarrollador Full Stack enfocado en backend, APIs, automatización y soluciones basadas en datos." />
+
+  <script>
+    // Aplica el tema guardado antes del primer render para evitar un parpadeo de color.
+    try {
+      var storedTheme = localStorage.getItem("theme");
+      if (storedTheme === "light" || storedTheme === "dark") {
+        document.documentElement.setAttribute("data-theme", storedTheme);
+      }
+    } catch (e) {}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="icon" href="./assets/images/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./styles/main.css" />
+</head>
+<body class="bg-[var(--color-bg)] font-sans text-[var(--color-primary)]">
+
+  <a href="#main-content" class="sr-only focus:not-sr-only">Saltar al contenido principal</a>
+
+  <!-- ============ HEADER / NAV ============ -->
+  <header id="site-header" class="sticky top-0 z-50 bg-[var(--color-surface)]/80 backdrop-blur transition-shadow">
+    <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4" aria-label="Navegación principal">
+      <a href="#inicio" class="font-bold text-[var(--color-primary)]">Samuel Vélez</a>
+
+      <div class="flex items-center gap-3">
+        <ul
+          id="nav-menu"
+          class="hidden absolute inset-x-0 top-full flex-col gap-4 border-t border-[var(--color-border)] bg-[var(--color-surface)] p-6 md:static md:flex md:flex-row md:items-center md:gap-6 md:border-0 md:bg-transparent md:p-0"
+        >
+          <li><a href="#inicio" class="nav-link">Inicio</a></li>
+          <li><a href="#experiencia" class="nav-link">Experiencia</a></li>
+          <li><a href="#skills" class="nav-link">Skills</a></li>
+          <li><a href="#proyectos" class="nav-link">Proyectos</a></li>
+          <li><a href="#educacion" class="nav-link">Educación</a></li>
+          <li><a href="#contacto" class="nav-link">Contacto</a></li>
+        </ul>
+
+        <button
+          id="theme-toggle"
+          type="button"
+          aria-label="Cambiar a modo oscuro"
+          class="flex h-9 w-16 shrink-0 items-center justify-center rounded-full border border-[var(--color-border)] p-1.5 transition hover:border-[var(--color-accent)]"
+        >
+          <img id="theme-icon-light" src="./assets/images/icon-light-mode.png" alt="" class="h-full w-full object-contain" />
+          <img id="theme-icon-dark" src="./assets/images/icon-dark-mode.png" alt="" class="hidden h-full w-full object-contain" />
+        </button>
+
+        <button id="nav-toggle" class="md:hidden text-2xl" aria-expanded="false" aria-controls="nav-menu">
+          <span class="sr-only">Abrir menú</span>
+          ☰
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ============ HERO ============ -->
+    <section id="inicio" class="relative overflow-hidden">
+      <canvas id="hero-particles" class="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
+
+      <div class="relative mx-auto grid max-w-6xl gap-12 px-6 py-24 lg:grid-cols-2 lg:items-center lg:py-32">
+        <div>
+          <span id="hero-tagline" class="chip !border-[var(--color-accent-soft)] !text-[var(--color-accent)]"></span>
+
+          <h1 class="mt-5">Samuel Vélez Guzmán</h1>
+          <p class="mt-2 text-xl text-[var(--color-secondary)]">Full Stack Developer</p>
+
+          <p id="hero-pitch" class="mt-5 text-[var(--color-secondary)]"></p>
+          <blockquote class="mt-3 border-l-2 border-[var(--color-accent-soft)] pl-4 italic text-[var(--color-secondary)]">
+            "Conecto la potencia de Java en el backend con la magia visual del frontend para transformar problemas complejos en soluciones simples."
+          </blockquote>
+
+          <div class="mt-8 flex flex-wrap gap-4">
+            <a href="#proyectos" class="btn-primary">Ver proyectos</a>
+            <a href="#contacto" class="btn-secondary">Contáctame</a>
+          </div>
+
+          <div class="mt-8 flex gap-5" id="social-links"></div>
+        </div>
+
+        <!-- Foto de perfil -->
+        <div class="mx-auto w-full max-w-sm">
+          <div class="overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-card-hover)]">
+            <img
+              src="./assets/images/samuel-velez.jpeg"
+              alt="Samuel Vélez Guzmán"
+              class="aspect-[4/5] w-full object-cover"
+              width="480"
+              height="600"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCIA ============ -->
+    <section id="experiencia" class="mx-auto max-w-4xl px-6 py-24">
+      <h2>Experiencia</h2>
+      <div id="experience-list" class="mt-10"></div>
+    </section>
+
+    <!-- ============ SKILLS ============ -->
+    <section id="skills" class="bg-[var(--color-surface)] py-24">
+      <div class="mx-auto max-w-5xl px-6">
+        <h2>Skills</h2>
+        <p class="text-[var(--color-secondary)]">Tecnologías y herramientas</p>
+
+        <div id="skills-filters" class="mt-8 flex flex-wrap gap-3" role="group" aria-label="Filtrar habilidades por categoría">
+          <button type="button" class="filter-chip is-active" data-filter="all" aria-pressed="true">Todas</button>
+        </div>
+
+        <div id="skills-groups" class="mt-8 space-y-10"></div>
+      </div>
+    </section>
+
+    <!-- ============ PROYECTOS ============ -->
+    <section id="proyectos" class="mx-auto max-w-5xl px-6 py-24">
+      <h2>Proyectos</h2>
+      <p class="text-[var(--color-secondary)]">Proyectos reales aplicando automatización, backend y análisis de datos.</p>
+      <div id="projects-grid" class="mt-10 grid gap-8 sm:grid-cols-2"></div>
+    </section>
+
+    <!-- ============ EDUCACIÓN ============ -->
+    <section id="educacion" class="bg-[var(--color-surface)] py-24">
+      <div class="mx-auto max-w-5xl px-6">
+        <h2>Educación</h2>
+        <div class="mt-10 grid gap-10 sm:grid-cols-2">
+          <div>
+            <h3 class="flex items-center gap-2">
+              <span aria-hidden="true">🎓</span> Educación formal
+            </h3>
+            <div id="education-formal" class="mt-5"></div>
+          </div>
+          <div>
+            <h3 class="flex items-center gap-2">
+              <span aria-hidden="true">📜</span> Certificaciones y cursos
+            </h3>
+            <div id="education-certs" class="mt-5"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACTO ============ -->
+    <section id="contacto" class="mx-auto max-w-5xl px-6 py-24">
+      <div class="grid gap-12 lg:grid-cols-[1.1fr_1fr]">
+        <div>
+          <h2>Hablemos de tu próximo proyecto</h2>
+          <p class="mt-3 text-[var(--color-secondary)]">
+            ¿Tienes una oportunidad laboral, un proyecto freelance o una idea para colaborar? Escríbeme y te respondo lo antes posible.
+          </p>
+
+          <form id="contact-form" class="mt-8 space-y-5" novalidate>
+            <div>
+              <label for="field-name" class="mb-1 block text-sm font-medium">Nombre completo</label>
+              <input id="field-name" data-field="name" name="name" type="text" class="field-input" placeholder="Ej. Ana Torres" autocomplete="name" required />
+              <p data-error="name" class="field-error" role="alert"></p>
+            </div>
+
+            <div>
+              <label for="field-email" class="mb-1 block text-sm font-medium">Correo electrónico</label>
+              <input id="field-email" data-field="email" name="email" type="email" class="field-input" placeholder="ana@empresa.com" autocomplete="email" required />
+              <p data-error="email" class="field-error" role="alert"></p>
+            </div>
+
+            <div>
+              <label for="field-subject" class="mb-1 block text-sm font-medium">Asunto</label>
+              <input id="field-subject" data-field="subject" name="subject" type="text" class="field-input" placeholder="Motivo de tu mensaje" required />
+              <p data-error="subject" class="field-error" role="alert"></p>
+            </div>
+
+            <div>
+              <label for="field-inquiryType" class="mb-1 block text-sm font-medium">Tipo de consulta</label>
+              <select id="field-inquiryType" data-field="inquiryType" name="inquiryType" class="field-input" required>
+                <option value="">Selecciona una opción</option>
+                <option value="Oportunidad laboral">Oportunidad laboral</option>
+                <option value="Proyecto freelance">Proyecto freelance</option>
+                <option value="Colaboración">Colaboración</option>
+                <option value="Consulta general">Consulta general</option>
+              </select>
+              <p data-error="inquiryType" class="field-error" role="alert"></p>
+            </div>
+
+            <div>
+              <label for="field-message" class="mb-1 block text-sm font-medium">Mensaje</label>
+              <textarea id="field-message" data-field="message" name="message" rows="4" class="field-input" placeholder="Cuéntame en qué estás trabajando…" required></textarea>
+              <p data-error="message" class="field-error" role="alert"></p>
+            </div>
+
+            <div class="flex items-start gap-2">
+              <input id="field-confirm" type="checkbox" class="mt-1 h-4 w-4 rounded border-[var(--color-border)]" />
+              <label for="field-confirm" class="text-sm text-[var(--color-secondary)]">
+                Confirmo que la información proporcionada es correcta.
+              </label>
+            </div>
+
+            <p data-form-status class="hidden rounded-[var(--radius-control)] px-4 py-3 text-sm" role="status" aria-live="polite"></p>
+
+            <button type="submit" data-submit class="btn-primary w-full sm:w-auto">Enviar mensaje</button>
+          </form>
+        </div>
+
+        <aside class="card h-fit p-6">
+          <h3>Otra forma de contactarme</h3>
+          <dl class="mt-4 space-y-3 text-sm text-[var(--color-secondary)]">
+            <div>
+              <dt class="font-medium text-[var(--color-primary)]">Correo</dt>
+              <dd><a href="mailto:samu2005vel@gmail.com" class="hover:text-[var(--color-accent)]">samu2005vel@gmail.com</a></dd>
+            </div>
+            <div id="contact-location-block">
+              <dt class="font-medium text-[var(--color-primary)]">Ubicación</dt>
+              <dd id="contact-location"></dd>
+            </div>
+            <div id="contact-availability-block">
+              <dt class="font-medium text-[var(--color-primary)]">Disponibilidad</dt>
+              <dd id="contact-availability" class="flex items-center gap-2">
+                <span class="h-2 w-2 rounded-full bg-[var(--color-success)]"></span>
+                Disponible para nuevas oportunidades
+              </dd>
+            </div>
+          </dl>
+          <div class="mt-6 flex gap-4" id="social-links-secondary"></div>
+        </aside>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-[var(--color-border)] py-8 text-center text-sm text-[var(--color-secondary)]">
+    <p>&copy; <span id="year"></span> Samuel Vélez Guzmán. Todos los derechos reservados.</p>
+  </footer>
+
+  <button
+    id="back-to-top"
+    type="button"
+    aria-label="Volver al inicio"
+    class="btn-primary fixed bottom-6 right-6 z-40 hidden !rounded-full !p-3 shadow-lg"
+  >
+    ↑
+  </button>
+
+  <script type="module" src="./scripts/main.js"></script>
+</body>
+</html>

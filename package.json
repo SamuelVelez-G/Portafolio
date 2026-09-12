@@ -1,0 +1,19 @@
+{
+  "name": "portafolio-samuel-velez",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portafolio web personal de Samuel Vélez Guzmán — Desarrollador Full Stack.",
+  "type": "module",
+  "scripts": {
+    "watch:css": "npx @tailwindcss/cli -i ./styles/tailwind.css -o ./styles/main.css --watch",
+    "build:css": "npx @tailwindcss/cli -i ./styles/tailwind.css -o ./styles/main.css --minify",
+    "serve": "live-server --port=5500 --no-browser --ignore=node_modules",
+    "dev": "concurrently \"npm:watch:css\" \"npm:serve\""
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.0",
+    "tailwindcss": "^4.1.0",
+    "concurrently": "^9.1.0",
+    "live-server": "^1.2.2"
+  }
+}
