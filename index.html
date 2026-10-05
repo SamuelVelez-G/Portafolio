@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,7 +7,8 @@
   <meta name="description" content="Portafolio de Samuel Vélez Guzmán, Desarrollador Full Stack enfocado en backend, APIs, automatización y soluciones basadas en datos." />
 
   <script>
-    // Aplica el tema guardado antes del primer render para evitar un parpadeo de color.
+    // El modo oscuro es el tema por defecto. Si el visitante eligió otro, se aplica antes
+    // del primer render para evitar un parpadeo de color.
     try {
       var storedTheme = localStorage.getItem("theme");
       if (storedTheme === "light" || storedTheme === "dark") {
@@ -29,8 +30,22 @@
 
   <!-- ============ HEADER / NAV ============ -->
   <header id="site-header" class="sticky top-0 z-50 bg-[var(--color-surface)]/80 backdrop-blur transition-shadow">
-    <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4" aria-label="Navegación principal">
-      <a href="#inicio" class="font-bold text-[var(--color-primary)]">Samuel Vélez</a>
+    <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-3" aria-label="Navegación principal">
+      <!-- Logo: monograma "SV" lineal + nombre -->
+      <a href="#inicio" class="group flex items-center gap-3" aria-label="Samuel Vélez, ir al inicio">
+        <svg viewBox="0 0 48 48" class="h-10 w-10 shrink-0" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="1.5" y="1.5" width="45" height="45" rx="12" stroke-width="1.5" class="stroke-[var(--color-border)] transition-colors group-hover:stroke-[var(--color-accent)]" />
+          <g stroke-width="3.2">
+            <path class="stroke-[var(--color-primary)]" d="M23 17.5C21 14 11 14 11 19.5C11 25 23 23.5 23 29.5C23 35 12.5 35 10.5 31" />
+            <path class="stroke-[var(--color-primary)]" d="M26 14L31.5 34" />
+            <path class="stroke-[var(--color-accent)]" d="M31.5 34L37 14" />
+          </g>
+        </svg>
+        <span class="leading-tight">
+          <span class="block text-[0.95rem] font-extrabold tracking-tight text-[var(--color-primary)]">Samuel Vélez</span>
+          <span class="block font-mono text-[0.62rem] uppercase tracking-[0.18em] text-[var(--color-secondary)]">Full Stack Dev</span>
+        </span>
+      </a>
 
       <div class="flex items-center gap-3">
         <ul
@@ -48,16 +63,16 @@
         <button
           id="theme-toggle"
           type="button"
-          aria-label="Cambiar a modo oscuro"
+          aria-label="Cambiar a modo claro"
           class="flex h-9 w-16 shrink-0 items-center justify-center rounded-full border border-[var(--color-border)] p-1.5 transition hover:border-[var(--color-accent)]"
         >
-          <img id="theme-icon-light" src="./assets/images/icon-light-mode.png" alt="" class="h-full w-full object-contain" />
-          <img id="theme-icon-dark" src="./assets/images/icon-dark-mode.png" alt="" class="hidden h-full w-full object-contain" />
+          <img id="theme-icon-light" src="./assets/images/icon-light-mode.png" alt="" class="hidden h-full w-full object-contain" />
+          <img id="theme-icon-dark" src="./assets/images/icon-dark-mode.png" alt="" class="h-full w-full object-contain" />
         </button>
 
-        <button id="nav-toggle" class="md:hidden text-2xl" aria-expanded="false" aria-controls="nav-menu">
+        <button id="nav-toggle" class="text-[var(--color-primary)] md:hidden" aria-expanded="false" aria-controls="nav-menu">
           <span class="sr-only">Abrir menú</span>
-          ☰
+          <span data-icon="menu" data-icon-size="26" aria-hidden="true"></span>
         </button>
       </div>
     </nav>
@@ -69,7 +84,7 @@
     <section id="inicio" class="relative overflow-hidden">
       <canvas id="hero-particles" class="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
 
-      <div class="relative mx-auto grid max-w-6xl gap-12 px-6 py-24 lg:grid-cols-2 lg:items-center lg:py-32">
+      <div class="relative mx-auto grid max-w-6xl gap-10 px-6 py-12 lg:grid-cols-2 lg:items-center lg:py-14">
         <div>
           <span id="hero-tagline" class="chip !border-[var(--color-accent-soft)] !text-[var(--color-accent)]"></span>
 
@@ -77,7 +92,7 @@
           <p class="mt-2 text-xl text-[var(--color-secondary)]">Full Stack Developer</p>
 
           <p id="hero-pitch" class="mt-5 text-[var(--color-secondary)]"></p>
-          <blockquote class="mt-3 border-l-2 border-[var(--color-accent-soft)] pl-4 italic text-[var(--color-secondary)]">
+          <blockquote class="mt-3 border-l-2 border-[var(--color-accent)] pl-4 italic text-[var(--color-secondary)]">
             "Conecto la potencia de Java en el backend con la magia visual del frontend para transformar problemas complejos en soluciones simples."
           </blockquote>
 
@@ -86,12 +101,13 @@
             <a href="#contacto" class="btn-secondary">Contáctame</a>
           </div>
 
-          <div class="mt-8 flex gap-5" id="social-links"></div>
+          <div class="mt-8 flex items-center gap-5" id="social-links"></div>
         </div>
 
-        <!-- Foto de perfil -->
-        <div class="mx-auto w-full max-w-sm">
-          <div class="overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-card-hover)]">
+        <!-- Foto de perfil con marco desplazado -->
+        <div class="relative mx-auto w-full max-w-sm">
+          <div class="absolute -bottom-3 -right-3 h-full w-full rounded-[var(--radius-card)] border-2 border-[var(--color-accent)] opacity-60" aria-hidden="true"></div>
+          <div class="relative overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-card-hover)]">
             <img
               src="./assets/images/samuel-velez.jpeg"
               alt="Samuel Vélez Guzmán"
@@ -105,13 +121,13 @@
     </section>
 
     <!-- ============ EXPERIENCIA ============ -->
-    <section id="experiencia" class="mx-auto max-w-4xl px-6 py-24">
+    <section id="experiencia" class="mx-auto max-w-4xl px-6 pb-16 pt-6 md:pb-20">
       <h2>Experiencia</h2>
-      <div id="experience-list" class="mt-10"></div>
+      <div id="experience-list" class="mt-8"></div>
     </section>
 
     <!-- ============ SKILLS ============ -->
-    <section id="skills" class="bg-[var(--color-surface)] py-24">
+    <section id="skills" class="bg-[var(--color-surface)] py-16 md:py-20">
       <div class="mx-auto max-w-5xl px-6">
         <h2>Skills</h2>
         <p class="text-[var(--color-secondary)]">Tecnologías y herramientas</p>
@@ -120,117 +136,103 @@
           <button type="button" class="filter-chip is-active" data-filter="all" aria-pressed="true">Todas</button>
         </div>
 
-        <div id="skills-groups" class="mt-8 space-y-10"></div>
+        <div id="skills-groups" class="mt-8 space-y-8"></div>
       </div>
     </section>
 
     <!-- ============ PROYECTOS ============ -->
-    <section id="proyectos" class="mx-auto max-w-5xl px-6 py-24">
+    <section id="proyectos" class="mx-auto max-w-5xl px-6 py-16 md:py-20">
       <h2>Proyectos</h2>
       <p class="text-[var(--color-secondary)]">Proyectos reales aplicando automatización, backend y análisis de datos.</p>
-      <div id="projects-grid" class="mt-10 grid gap-8 sm:grid-cols-2"></div>
+      <div id="projects-grid" class="mt-8 grid gap-8 sm:grid-cols-2"></div>
     </section>
 
     <!-- ============ EDUCACIÓN ============ -->
-    <section id="educacion" class="bg-[var(--color-surface)] py-24">
+    <section id="educacion" class="bg-[var(--color-surface)] py-16 md:py-20">
       <div class="mx-auto max-w-5xl px-6">
         <h2>Educación</h2>
-        <div class="mt-10 grid gap-10 sm:grid-cols-2">
+        <div class="mt-8 grid gap-10 sm:grid-cols-2">
           <div>
-            <h3 class="flex items-center gap-2">
-              <span aria-hidden="true">🎓</span> Educación formal
+            <h3 class="flex items-center gap-3">
+              <span class="icon-box" data-icon="graduationCap" data-icon-size="20" aria-hidden="true"></span>
+              Educación formal
             </h3>
-            <div id="education-formal" class="mt-5"></div>
+            <div id="education-formal" class="mt-6"></div>
           </div>
           <div>
-            <h3 class="flex items-center gap-2">
-              <span aria-hidden="true">📜</span> Certificaciones y cursos
+            <h3 class="flex items-center gap-3">
+              <span class="icon-box" data-icon="award" data-icon-size="20" aria-hidden="true"></span>
+              Certificaciones y cursos
             </h3>
-            <div id="education-certs" class="mt-5"></div>
+            <div id="education-certs" class="mt-6"></div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ============ CONTACTO ============ -->
-    <section id="contacto" class="mx-auto max-w-5xl px-6 py-24">
-      <div class="grid gap-12 lg:grid-cols-[1.1fr_1fr]">
+    <section id="contacto" class="mx-auto max-w-5xl px-6 py-16 md:py-20">
+      <div class="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-start">
         <div>
-          <h2>Hablemos de tu próximo proyecto</h2>
-          <p class="mt-3 text-[var(--color-secondary)]">
-            ¿Tienes una oportunidad laboral, un proyecto freelance o una idea para colaborar? Escríbeme y te respondo lo antes posible.
+          <h2>Trabajemos juntos</h2>
+          <p class="mt-3 max-w-md text-[var(--color-secondary)]">
+            Estoy disponible para nuevas oportunidades como desarrollador Full Stack y Backend. Escríbeme y conversemos.
           </p>
 
           <form id="contact-form" class="mt-8 space-y-5" novalidate>
             <div>
-              <label for="field-name" class="mb-1 block text-sm font-medium">Nombre completo</label>
-              <input id="field-name" data-field="name" name="name" type="text" class="field-input" placeholder="Ej. Ana Torres" autocomplete="name" required />
+              <label for="field-name" class="mb-1 block text-sm font-medium">Nombre</label>
+              <input id="field-name" data-field="name" name="name" type="text" class="field-input" placeholder="Tu nombre" autocomplete="name" required />
               <p data-error="name" class="field-error" role="alert"></p>
             </div>
 
             <div>
               <label for="field-email" class="mb-1 block text-sm font-medium">Correo electrónico</label>
-              <input id="field-email" data-field="email" name="email" type="email" class="field-input" placeholder="ana@empresa.com" autocomplete="email" required />
+              <input id="field-email" data-field="email" name="email" type="email" class="field-input" placeholder="tu@empresa.com" autocomplete="email" required />
               <p data-error="email" class="field-error" role="alert"></p>
             </div>
 
             <div>
-              <label for="field-subject" class="mb-1 block text-sm font-medium">Asunto</label>
-              <input id="field-subject" data-field="subject" name="subject" type="text" class="field-input" placeholder="Motivo de tu mensaje" required />
-              <p data-error="subject" class="field-error" role="alert"></p>
-            </div>
-
-            <div>
-              <label for="field-inquiryType" class="mb-1 block text-sm font-medium">Tipo de consulta</label>
-              <select id="field-inquiryType" data-field="inquiryType" name="inquiryType" class="field-input" required>
-                <option value="">Selecciona una opción</option>
-                <option value="Oportunidad laboral">Oportunidad laboral</option>
-                <option value="Proyecto freelance">Proyecto freelance</option>
-                <option value="Colaboración">Colaboración</option>
-                <option value="Consulta general">Consulta general</option>
-              </select>
-              <p data-error="inquiryType" class="field-error" role="alert"></p>
-            </div>
-
-            <div>
               <label for="field-message" class="mb-1 block text-sm font-medium">Mensaje</label>
-              <textarea id="field-message" data-field="message" name="message" rows="4" class="field-input" placeholder="Cuéntame en qué estás trabajando…" required></textarea>
+              <textarea id="field-message" data-field="message" name="message" rows="4" class="field-input" placeholder="Cuéntame sobre la oportunidad o el proyecto…" required></textarea>
               <p data-error="message" class="field-error" role="alert"></p>
-            </div>
-
-            <div class="flex items-start gap-2">
-              <input id="field-confirm" type="checkbox" class="mt-1 h-4 w-4 rounded border-[var(--color-border)]" />
-              <label for="field-confirm" class="text-sm text-[var(--color-secondary)]">
-                Confirmo que la información proporcionada es correcta.
-              </label>
             </div>
 
             <p data-form-status class="hidden rounded-[var(--radius-control)] px-4 py-3 text-sm" role="status" aria-live="polite"></p>
 
-            <button type="submit" data-submit class="btn-primary w-full sm:w-auto">Enviar mensaje</button>
+            <button type="submit" data-submit class="btn-primary w-full sm:w-auto">
+              <span data-icon="send" data-icon-size="18" aria-hidden="true"></span>
+              <span data-submit-label>Enviar mensaje</span>
+            </button>
           </form>
         </div>
 
-        <aside class="card h-fit p-6">
-          <h3>Otra forma de contactarme</h3>
-          <dl class="mt-4 space-y-3 text-sm text-[var(--color-secondary)]">
-            <div>
-              <dt class="font-medium text-[var(--color-primary)]">Correo</dt>
-              <dd><a href="mailto:samu2005vel@gmail.com" class="hover:text-[var(--color-accent)]">samu2005vel@gmail.com</a></dd>
-            </div>
-            <div id="contact-location-block">
-              <dt class="font-medium text-[var(--color-primary)]">Ubicación</dt>
-              <dd id="contact-location"></dd>
-            </div>
-            <div id="contact-availability-block">
-              <dt class="font-medium text-[var(--color-primary)]">Disponibilidad</dt>
-              <dd id="contact-availability" class="flex items-center gap-2">
-                <span class="h-2 w-2 rounded-full bg-[var(--color-success)]"></span>
-                Disponible para nuevas oportunidades
-              </dd>
-            </div>
-          </dl>
-          <div class="mt-6 flex gap-4" id="social-links-secondary"></div>
+        <aside class="card p-6">
+          <h3>Contacto directo</h3>
+          <ul class="mt-5 space-y-4 text-sm">
+            <li class="flex items-center gap-3">
+              <span class="icon-box" data-icon="mail" data-icon-size="18" aria-hidden="true"></span>
+              <div>
+                <p class="text-xs text-[var(--color-secondary)]">Correo</p>
+                <a id="contact-email" href="#" class="break-all font-medium hover:text-[var(--color-accent)]"></a>
+              </div>
+            </li>
+            <li id="contact-location-block" class="flex items-center gap-3">
+              <span class="icon-box" data-icon="mapPin" data-icon-size="18" aria-hidden="true"></span>
+              <div>
+                <p class="text-xs text-[var(--color-secondary)]">Ubicación</p>
+                <p id="contact-location" class="font-medium"></p>
+              </div>
+            </li>
+            <li id="contact-availability-block" class="flex items-center gap-3">
+              <span class="icon-box" aria-hidden="true"><span class="h-2.5 w-2.5 rounded-full bg-[var(--color-success)]"></span></span>
+              <div>
+                <p class="text-xs text-[var(--color-secondary)]">Disponibilidad</p>
+                <p class="font-medium">Disponible para nuevas oportunidades</p>
+              </div>
+            </li>
+          </ul>
+          <div class="mt-6 flex flex-wrap gap-2" id="social-links-secondary"></div>
         </aside>
       </div>
     </section>
@@ -247,7 +249,7 @@
     aria-label="Volver al inicio"
     class="btn-primary fixed bottom-6 right-6 z-40 hidden !rounded-full !p-3 shadow-lg"
   >
-    ↑
+    <span data-icon="arrowUp" data-icon-size="20" aria-hidden="true"></span>
   </button>
 
   <script type="module" src="./scripts/main.js"></script>

@@ -18,20 +18,13 @@ import { profile } from "../data/profile.js";
  * y deja el try/catch de contactForm.js tal como está: ya maneja los
  * estados de carga, éxito y error.
  *
- * @param {{ name: string, email: string, subject: string, inquiryType: string, message: string }} payload
+ * @param {{ name: string, email: string, message: string }} payload
  */
 export async function sendContactMessage(payload) {
-  const body = [
-    `Nombre: ${payload.name}`,
-    `Correo: ${payload.email}`,
-    `Tipo de consulta: ${payload.inquiryType}`,
-    "",
-    payload.message,
-  ].join("\n");
+  const subject = `Contacto desde el portafolio — ${payload.name}`;
+  const body = [`Nombre: ${payload.name}`, `Correo: ${payload.email}`, "", payload.message].join("\n");
 
-  const mailto = `mailto:${profile.email}?subject=${encodeURIComponent(
-    payload.subject
-  )}&body=${encodeURIComponent(body)}`;
+  const mailto = `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
   // Simula una latencia de red para que los estados de carga se vean bien.
   await new Promise((resolve) => setTimeout(resolve, 600));

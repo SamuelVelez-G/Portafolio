@@ -43,11 +43,11 @@ componentes reutilizables, datos separados de la presentación, accesibilidad y 
 | | |
 |---|---|
 | **Hero interactivo** | Foto de perfil, red de partículas animada en canvas y accesos directos a proyectos y contacto |
-| **Experiencia y Educación** | Línea de tiempo con indicador visual y efecto hover |
-| **Skills filtrables** | Tecnologías agrupadas por categoría, con filtro instantáneo sin recargar la página |
-| **Proyectos con detalle** | Tarjetas con captura real, stack usado y modal accesible (cierre con Escape, clic afuera o botón) |
-| **Formulario de contacto** | Validación en tiempo real, mensajes en español y estados de carga/éxito/error |
-| **Modo claro y oscuro** | Basado en variables CSS, con detección automática de la preferencia del sistema |
+| **Experiencia y Educación** | Línea de tiempo con indicador visual y efecto hover; la experiencia resume rol, empresa, fecha y un hito |
+| **Skills con iconos** | Logos de cada tecnología, agrupadas por categoría, con filtro instantáneo y animación de entrada |
+| **Proyectos con detalle** | Tarjetas con captura real, botones a GitHub/Demo y modal accesible (cierre con Escape, clic afuera o botón) |
+| **Formulario de contacto** | Tres campos, validación en tiempo real, mensajes en español y estados de carga/éxito/error |
+| **Modo oscuro por defecto** | Basado en variables CSS; el visitante puede cambiar a modo claro y su elección se recuerda |
 | **Diseño responsivo** | Menú móvil propio, sin scroll horizontal, pensado para escritorio, tablet y móvil |
 
 ## Stack
@@ -72,11 +72,14 @@ PORTAFOLIO/
 ├── package.json
 ├── .gitignore
 ├── assets/
-│   └── images/           # Foto de perfil, capturas de proyectos, íconos
+│   ├── icons/tech/       # Logos de tecnologías (SVG)
+│   └── images/           # Foto de perfil, capturas de proyectos, favicon/logo
 ├── components/           # Funciones JS que renderizan UI reutilizable
+│   ├── icons.js          # Iconos lineales inline (Lucide)
 │   ├── ProjectCard.js
 │   ├── ProjectModal.js
 │   ├── SkillBadge.js
+│   ├── SkillTile.js
 │   ├── SocialLink.js
 │   └── TimelineItem.js
 ├── scripts/

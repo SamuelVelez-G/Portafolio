@@ -8,8 +8,6 @@ const RULES = {
     if (!value.trim()) return "El correo es obligatorio.";
     return EMAIL_RE.test(value.trim()) ? null : "Ingresa un correo electrónico válido.";
   },
-  subject: (value) => (value.trim().length >= 3 ? null : "Cuéntame brevemente el motivo."),
-  inquiryType: (value) => (value ? null : "Selecciona un tipo de consulta."),
   message: (value) => (value.trim().length >= 10 ? null : "El mensaje debe tener al menos 10 caracteres."),
 };
 
@@ -23,6 +21,7 @@ export function initContactForm(formSelector = "#contact-form") {
   }, {});
 
   const submitBtn = form.querySelector("[data-submit]");
+  const submitLabel = form.querySelector("[data-submit-label]") ?? submitBtn;
   const statusEl = form.querySelector("[data-form-status]");
 
   function errorEl(key) {
@@ -81,8 +80,8 @@ export function initContactForm(formSelector = "#contact-form") {
     }, {});
 
     submitBtn.disabled = true;
-    submitBtn.dataset.originalText ??= submitBtn.textContent;
-    submitBtn.textContent = "Enviando…";
+    submitLabel.dataset.originalText ??= submitLabel.textContent;
+    submitLabel.textContent = "Enviando…";
     setStatus("loading", "Enviando tu mensaje…");
 
     try {
@@ -97,7 +96,7 @@ export function initContactForm(formSelector = "#contact-form") {
       setStatus("error", "No pudimos enviar el mensaje. Inténtalo de nuevo o escríbeme directamente por correo.");
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = submitBtn.dataset.originalText;
+      submitLabel.textContent = submitLabel.dataset.originalText;
     }
   });
 }

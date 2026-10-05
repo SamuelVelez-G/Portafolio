@@ -13,9 +13,8 @@ export function initTheme() {
   if (stored === "light" || stored === "dark") root.setAttribute("data-theme", stored);
 
   function isDark() {
-    const explicit = root.getAttribute("data-theme");
-    if (explicit) return explicit === "dark";
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    // El modo oscuro es el tema por defecto del portafolio.
+    return root.getAttribute("data-theme") !== "light";
   }
 
   function syncToggle() {

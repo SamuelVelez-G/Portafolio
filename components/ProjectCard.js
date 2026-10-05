@@ -1,4 +1,18 @@
 import { SkillBadge } from "./SkillBadge.js";
+import { icon } from "./icons.js";
+
+/**
+ * Botón de acción de la tarjeta (enlace externo con icono lineal).
+ */
+function ActionLink({ href, label, iconName, variant }) {
+  const a = document.createElement("a");
+  a.href = href;
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
+  a.className = `${variant} btn-sm`;
+  a.innerHTML = `${icon(iconName, 16)}<span>${label}</span>`;
+  return a;
+}
 
 /**
  * @param {object} project
@@ -6,10 +20,10 @@ import { SkillBadge } from "./SkillBadge.js";
  * @returns {HTMLElement}
  */
 export function ProjectCard(project, onDetails) {
-  const { title, type, period, description, stack = [], image, imageAlt, link } = project;
+  const { title, type, period, description, stack = [], image, imageAlt, link, demo } = project;
 
   const card = document.createElement("article");
-  card.className = "card reveal overflow-hidden";
+  card.className = "card reveal flex h-full flex-col overflow-hidden";
   card.setAttribute("data-reveal", "");
 
   card.innerHTML = `
@@ -18,39 +32,39 @@ export function ProjectCard(project, onDetails) {
         ? `<img src="${image}" alt="${imageAlt ?? ""}" class="h-44 w-full object-cover" loading="lazy" />`
         : ""
     }
-    <div class="p-6">
+    <div class="flex flex-1 flex-col p-6 pb-0 text-left">
       <div class="flex flex-wrap items-center justify-between gap-2">
         ${type ? `<span class="chip !py-1 !text-xs" style="border-color: var(--color-accent-soft); color: var(--color-accent);">${type}</span>` : "<span></span>"}
-        ${period ? `<span class="text-xs text-[var(--color-secondary)]">${period}</span>` : ""}
+        ${period ? `<span class="font-mono text-xs text-[var(--color-secondary)]">${period}</span>` : ""}
       </div>
-      <h3 class="mt-3 text-[var(--color-primary)]">${title}</h3>
-      <p class="mt-2 text-sm text-[var(--color-secondary)] line-clamp-3">${description}</p>
+      <h3 class="mt-3 line-clamp-2 min-h-[2.6em] text-[var(--color-primary)]">${title}</h3>
+      <p class="mt-2 text-sm text-[var(--color-secondary)]">${description}</p>
     </div>
   `;
 
-  const stackWrap = document.createElement("div");
-  stackWrap.className = "flex flex-wrap gap-2 px-6";
-  stack.forEach((tech) => stackWrap.appendChild(SkillBadge(tech)));
-  card.appendChild(stackWrap);
+  const body = card.querySelector("div.flex-1");
 
+  const stackWrap = document.createElement("div");
+  stackWrap.className = "mt-4 flex flex-wrap gap-2";
+  stack.forEach((tech) => stackWrap.appendChild(SkillBadge(tech)));
+  body.appendChild(stackWrap);
+
+  // Los botones quedan siempre alineados al borde inferior, sin importar cuánto texto tenga la tarjeta.
   const actions = document.createElement("div");
-  actions.className = "flex items-center gap-4 px-6 py-5";
+  actions.className = "mt-auto flex flex-wrap items-center gap-2 p-6 pt-5";
 
   const detailsBtn = document.createElement("button");
   detailsBtn.type = "button";
-  detailsBtn.className = "text-sm font-semibold text-[var(--color-accent)] hover:underline";
-  detailsBtn.textContent = "Ver detalles →";
+  detailsBtn.className = "btn-secondary btn-sm";
+  detailsBtn.textContent = "Ver detalles";
   detailsBtn.addEventListener("click", () => onDetails(project));
   actions.appendChild(detailsBtn);
 
+  if (demo) {
+    actions.appendChild(ActionLink({ href: demo, label: "Demo", iconName: "externalLink", variant: "btn-primary" }));
+  }
   if (link) {
-    const a = document.createElement("a");
-    a.href = link;
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
-    a.className = "text-sm font-medium text-[var(--color-secondary)] hover:text-[var(--color-primary)]";
-    a.textContent = "Repositorio";
-    actions.appendChild(a);
+    actions.appendChild(ActionLink({ href: link, label: "GitHub", iconName: "github", variant: "btn-primary" }));
   }
 
   card.appendChild(actions);

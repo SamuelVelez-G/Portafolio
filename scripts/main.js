@@ -12,8 +12,9 @@ import { initBackToTop } from "./modules/backToTop.js";
 import { initContactForm } from "./modules/contactForm.js";
 import { initTheme } from "./modules/theme.js";
 
+import { icon } from "../components/icons.js";
 import { SocialLink } from "../components/SocialLink.js";
-import { SkillBadge } from "../components/SkillBadge.js";
+import { SkillTile } from "../components/SkillTile.js";
 import { TimelineItem } from "../components/TimelineItem.js";
 import { ProjectCard } from "../components/ProjectCard.js";
 import { createProjectModal } from "../components/ProjectModal.js";
@@ -24,6 +25,13 @@ function mount(selector, nodes) {
   nodes.forEach((node) => container.appendChild(node));
 }
 
+/** Reemplaza cada [data-icon="nombre"] del HTML por el icono lineal correspondiente. */
+function hydrateIcons() {
+  document.querySelectorAll("[data-icon]").forEach((el) => {
+    el.innerHTML = icon(el.dataset.icon, Number(el.dataset.iconSize) || 22);
+  });
+}
+
 function renderSocialLinks() {
   const links = [
     { href: `mailto:${profile.email}`, label: "Correo", icon: "mail" },
@@ -31,8 +39,8 @@ function renderSocialLinks() {
   ];
   if (profile.github) links.push({ href: profile.github, label: "GitHub", icon: "github" });
 
-  mount("#social-links", links.map(SocialLink));
-  mount("#social-links-secondary", links.map(SocialLink));
+  mount("#social-links", links.map((link) => SocialLink(link)));
+  mount("#social-links-secondary", links.map((link) => SocialLink({ ...link, showLabel: true })));
 }
 
 function renderSkills() {
@@ -54,10 +62,10 @@ function renderSkills() {
     group.setAttribute("data-reveal", "");
     group.innerHTML = `<h3 class="text-[var(--color-primary)]">${category.label}</h3>`;
 
-    const chipsWrap = document.createElement("div");
-    chipsWrap.className = "mt-4 flex flex-wrap gap-2";
-    category.items.forEach((skill) => chipsWrap.appendChild(SkillBadge(skill)));
-    group.appendChild(chipsWrap);
+    const tilesWrap = document.createElement("div");
+    tilesWrap.className = "mt-4 flex flex-wrap gap-3";
+    category.items.forEach((skill, index) => tilesWrap.appendChild(SkillTile(skill, index)));
+    group.appendChild(tilesWrap);
 
     groupsContainer.appendChild(group);
   });
@@ -70,10 +78,10 @@ function renderExperience() {
     "#experience-list",
     experience.map((job) =>
       TimelineItem({
-        title: `${job.role} · ${job.company}`,
-        subtitle: job.location,
+        title: job.role,
+        subtitle: job.company,
         period: job.period,
-        bullets: job.highlights,
+        highlight: job.milestone,
       })
     )
   );
@@ -118,6 +126,10 @@ function renderHeroCopy() {
 }
 
 function renderContactSidebar() {
+  const emailEl = document.getElementById("contact-email");
+  emailEl.href = `mailto:${profile.email}`;
+  emailEl.textContent = profile.email;
+
   const locationEl = document.getElementById("contact-location");
   const locationBlock = document.getElementById("contact-location-block");
   if (profile.location) {
@@ -133,6 +145,7 @@ function renderContactSidebar() {
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("year").textContent = new Date().getFullYear();
 
+  hydrateIcons();
   renderHeroCopy();
   renderSocialLinks();
   renderSkills();

@@ -1,4 +1,5 @@
 import { SkillBadge } from "./SkillBadge.js";
+import { icon } from "./icons.js";
 
 /**
  * Modal accesible de detalle de proyecto.
@@ -7,7 +8,7 @@ import { SkillBadge } from "./SkillBadge.js";
 export function createProjectModal() {
   const overlay = document.createElement("div");
   overlay.className =
-    "fixed inset-0 z-[100] hidden items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm";
+    "fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 p-4 backdrop-blur-sm";
   overlay.setAttribute("role", "presentation");
 
   overlay.innerHTML = `
@@ -21,12 +22,12 @@ export function createProjectModal() {
         type="button"
         data-close
         aria-label="Cerrar detalles del proyecto"
-        class="absolute right-4 top-4 rounded-full p-1 text-[var(--color-secondary)] hover:bg-[var(--color-accent-soft)] hover:text-[var(--color-primary)]"
+        class="absolute right-4 top-4 rounded-full p-1.5 text-[var(--color-secondary)] hover:bg-[var(--color-accent-soft)] hover:text-[var(--color-primary)]"
       >
-        ✕
+        ${icon("x", 18)}
       </button>
       <span data-type class="chip !py-1 !text-xs" style="border-color: var(--color-accent-soft); color: var(--color-accent);"></span>
-      <h3 id="project-modal-title" data-title class="mt-3 text-xl font-bold text-[var(--color-primary)]"></h3>
+      <h3 id="project-modal-title" data-title class="mt-3 pr-8 text-xl font-bold text-[var(--color-primary)]"></h3>
       <p data-period class="text-sm text-[var(--color-secondary)]"></p>
 
       <div class="mt-4">
@@ -44,15 +45,23 @@ export function createProjectModal() {
         <div data-stack class="mt-2 flex flex-wrap gap-2"></div>
       </div>
 
-      <div data-link-wrap class="mt-6 hidden">
-        <a data-link class="btn-secondary" target="_blank" rel="noopener noreferrer">Ver repositorio</a>
-      </div>
+      <div data-links class="mt-6 flex flex-wrap gap-2"></div>
     </div>
   `;
 
   document.body.appendChild(overlay);
 
   let lastFocused = null;
+
+  function linkButton({ href, label, iconName }) {
+    const a = document.createElement("a");
+    a.href = href;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.className = "btn-primary btn-sm";
+    a.innerHTML = `${icon(iconName, 16)}<span>${label}</span>`;
+    return a;
+  }
 
   function fill(project) {
     overlay.querySelector("[data-type]").textContent = project.type ?? "";
@@ -74,14 +83,10 @@ export function createProjectModal() {
     stackWrap.innerHTML = "";
     (project.stack ?? []).forEach((tech) => stackWrap.appendChild(SkillBadge(tech)));
 
-    const linkWrap = overlay.querySelector("[data-link-wrap]");
-    const linkEl = overlay.querySelector("[data-link]");
-    if (project.link) {
-      linkEl.href = project.link;
-      linkWrap.classList.remove("hidden");
-    } else {
-      linkWrap.classList.add("hidden");
-    }
+    const links = overlay.querySelector("[data-links]");
+    links.innerHTML = "";
+    if (project.demo) links.appendChild(linkButton({ href: project.demo, label: "Demo", iconName: "externalLink" }));
+    if (project.link) links.appendChild(linkButton({ href: project.link, label: "GitHub", iconName: "github" }));
   }
 
   function open(project) {
